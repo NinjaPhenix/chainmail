@@ -21,12 +21,12 @@ public abstract class WorldMixin {
     protected List<BlockEntity> unloadedBlockEntities;
 
     @Inject(method = "addBlockEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isClient:Z"))
-    private void addBlocKEntity(BlockEntity be, CallbackInfoReturnable<Boolean> cir) {
+    private void chainmail_addBlocKEntity(BlockEntity be, CallbackInfoReturnable<Boolean> cir) {
         ((ExpandedBlockEntity) be).onLoad();
     }
 
     @Inject(method = "tickBlockEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z", ordinal = 0))
-    private void tickBlockEntities(CallbackInfo ci) {
+    private void chainmail_tickBlockEntities(CallbackInfo ci) {
         unloadedBlockEntities.forEach(be -> ((ExpandedBlockEntity) be).onUnload());
     }
 }
