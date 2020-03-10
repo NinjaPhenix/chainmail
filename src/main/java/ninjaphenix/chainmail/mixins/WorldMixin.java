@@ -27,9 +27,6 @@ public abstract class WorldMixin {
 
     @Inject(method = "tickBlockEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z", ordinal = 0))
     private void tickBlockEntities(CallbackInfo ci) {
-        unloadedBlockEntities.forEach(be -> {
-            ((ExpandedBlockEntity) be).onUnload();
-            System.out.println("Unloading BE: " + Registry.BLOCK_ENTITY_TYPE.getId(be.getType()));
-        });
+        unloadedBlockEntities.forEach(be -> ((ExpandedBlockEntity) be).onUnload());
     }
 }
