@@ -15,16 +15,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(World.class)
-public abstract class WorldMixin
-{
-    @Shadow @Final protected List<BlockEntity> unloadedBlockEntities;
+public abstract class WorldMixin {
+    @Shadow
+    @Final
+    protected List<BlockEntity> unloadedBlockEntities;
 
-    @Inject(method="addBlockEntity", at=@At(value = "FIELD", target = "Lnet/minecraft/world/World;isClient:Z"))
+    @Inject(method = "addBlockEntity", at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;isClient:Z"))
     private void addBlocKEntity(BlockEntity be, CallbackInfoReturnable<Boolean> cir) {
         ((ExpandedBlockEntity) be).onLoad();
     }
 
-    @Inject(method="tickBlockEntities", at=@At(value="INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z", ordinal = 0))
+    @Inject(method = "tickBlockEntities", at = @At(value = "INVOKE", target = "Ljava/util/List;removeAll(Ljava/util/Collection;)Z", ordinal = 0))
     private void tickBlockEntities(CallbackInfo ci) {
         unloadedBlockEntities.forEach(be -> {
             ((ExpandedBlockEntity) be).onUnload();

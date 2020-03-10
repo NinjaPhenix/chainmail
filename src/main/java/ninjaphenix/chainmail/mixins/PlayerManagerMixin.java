@@ -16,7 +16,8 @@ public class PlayerManagerMixin {
     private void onPlayerConnected(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
         PlayerConnectCallback.EVENT.invoker().onPlayerConnected(player);
     }
-    @Inject(method="remove", at=@At("HEAD"))
+
+    @Inject(method = "remove", at = @At("HEAD"))
     private void onPlayerDisconnected(ServerPlayerEntity player, CallbackInfo ci) {
         PlayerDisconnectCallback.EVENT.invoker().onPlayerDisconnected(player);
     }
